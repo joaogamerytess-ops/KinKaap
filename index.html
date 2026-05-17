@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinKaap - Anotação de Receitas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>🍊 KinKaap</h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-tab="minhas">
+                    <span class="nav-label" data-i18n="minhas_receitas">Minhas Receitas</span>
+                </button>
+                <button class="nav-btn" data-tab="descobrir">
+                    <span class="nav-label" data-i18n="descobrir_receitas">Descobrir Receitas</span>
+                </button>
+                <button class="nav-btn" data-tab="destaque">
+                    <span class="nav-label" data-i18n="em_destaque">Em Destaque</span>
+                </button>
+                <button class="settings-btn" id="settingsBtn">⚙️</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content settings-modal">
+            <div class="modal-header">
+                <h2 data-i18n="configuracoes">Configurações</h2>
+                <button class="close-btn" id="closeSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <label data-i18n="idioma">Idioma:</label>
+                    <div class="language-buttons">
+                        <button class="lang-btn active" data-lang="pt">🇧🇷 Português</button>
+                        <button class="lang-btn" data-lang="en">🇺🇸 English</button>
+                        <button class="lang-btn" data-lang="es">🇪🇸 Español</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- TAB: MINHAS RECEITAS -->
+        <section id="minhas" class="tab-content active">
+            <div class="tab-header">
+                <div class="search-bar">
+                    <input type="text" id="searchMinhas" placeholder="🔍 Buscar receita..." class="search-input" data-i18n-placeholder="buscar_receita">
+                </div>
+                <button id="createBtn" class="btn btn-primary" data-i18n="nova_receita">+ Nova Receita</button>
+            </div>
+            <div id="minhasReceitasContainer" class="recipes-grid">
+                <p class="empty-state" data-i18n="nenhuma_receita">Nenhuma receita criada ainda</p>
+            </div>
+        </section>
+
+        <!-- TAB: DESCOBRIR RECEITAS -->
+        <section id="descobrir" class="tab-content">
+            <div class="tab-header">
+                <div class="search-bar">
+                    <input type="text" id="searchDescobrir" placeholder="🔍 Buscar receita..." class="search-input" data-i18n-placeholder="buscar_receita">
+                </div>
+            </div>
+            <div id="descobrirContainer" class="recipes-grid">
+                <p class="empty-state" data-i18n="nenhuma_receita_compartilhada">Nenhuma receita compartilhada ainda</p>
+            </div>
+        </section>
+
+        <!-- TAB: EM DESTAQUE -->
+        <section id="destaque" class="tab-content">
+            <div class="tab-header">
+                <div class="search-bar">
+                    <input type="text" id="searchDestaque" placeholder="🔍 Buscar receita..." class="search-input" data-i18n-placeholder="buscar_receita">
+                </div>
+            </div>
+            <div id="destaqueContainer" class="recipes-grid">
+                <p class="empty-state" data-i18n="nenhuma_receita_destaque">Nenhuma receita em destaque</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- RECIPE MODAL (CREATE/EDIT) -->
+    <div id="recipeModal" class="modal hidden">
+        <div class="modal-content recipe-modal">
+            <div class="modal-header">
+                <h2 id="modalTitle" data-i18n="nova_receita">Nova Receita</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label data-i18n="nome_receita">Nome da Receita:</label>
+                    <input type="text" id="recipeName" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="categoria">Categoria:</label>
+                    <select id="recipeCategory" class="form-input">
+                        <option value="salgado" data-i18n="salgado">Salgado</option>
+                        <option value="doce" data-i18n="doce">Doce</option>
+                        <option value="bebida" data-i18n="bebida">Bebida</option>
+                        <option value="salada" data-i18n="salada">Salada</option>
+                        <option value="outro" data-i18n="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="ingredientes">Ingredientes:</label>
+                    <textarea id="recipeIngredients" class="form-input" rows="4" placeholder="Um ingrediente por linha"></textarea>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="modo_preparo">Modo de Preparo:</label>
+                    <textarea id="recipeInstructions" class="form-input" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="tempo_preparo">Tempo de Preparo (min):</label>
+                    <input type="number" id="recipePrepTime" class="form-input" min="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn" data-i18n="cancelar">Cancelar</button>
+                <button class="btn btn-primary" id="saveBtn" data-i18n="salvar">Salvar Receita</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECIPE DETAIL MODAL -->
+    <div id="detailModal" class="modal hidden">
+        <div class="modal-content detail-modal">
+            <div class="modal-header">
+                <h2 id="detailTitle"></h2>
+                <button class="close-btn" id="closeDetail">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="detailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="languages.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
